@@ -1,0 +1,72 @@
+<div class="container-fluid">
+    <div class="row">
+        <div class="col bg-dark text-white">
+            <a class="navbar-brand">Online Store</a>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col mt-2">
+            <h2 class="text-center">Your Cart</h2>
+
+            <table class="table table-bordered table-stripped p-2">
+                <thead>
+                    <th>Quantity</th>
+                    <th>Product</th>
+                    <th class="text-right">Price</th>
+                    <th class="text-right">Sub-Total</th>
+                </thead>
+                <tbody>
+                    <tr *ngIf="userCart.lines.length==0" rowspan="2">
+                        <td colspan="4" class="text-center">Your Cart is Empty</td>
+                    </tr>
+                    <tr *ngFor="let line of userCart.lines">
+                        <td>
+                            <!-- {{line.quantity}}  -->
+                            <input type="number" 
+                            class="form-control-sm" 
+                            style="width: 5em;" 
+                            [value]="line.quantity"
+                            (change)="updateProductQuantityOnCart(line.product, $event.target.value)" />
+                        </td>
+                        <td>
+                            {{line.product.name}} 
+                        </td>
+                        <td class="text-right">
+                            {{line.product.price | currency:'BRL' : true:'2.2-2'}} 
+                        </td>
+                        <td class="text-center">
+                            <!-- {{line.getLineTotal() | currency:'BRL' : true:'2.2-2'}}  -->
+                            <button class="btn btn-sm btn-danger" (click)="removeProductFromCart(line.product.id)">
+                                Remove
+                            </button>
+                        </td>
+                    </tr>
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <td colspan="3" class="text-right">
+                            Total:
+                        </td>
+                        <td class="text-right">
+                            {{userCart.cartPrice | currency:'BRL' : true:'2.2-2'}}     
+                        </td>
+                    </tr>
+                </tfoot>
+
+            </table>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col">
+            <div class="text-right">
+                <button class="btn btn-primary m-1" routerLink="/store">
+                    Continue Shopping
+                </button>
+                <button class="btn btn-secondary m-1" routerLink="/checkout"
+                [disabled]="userCart.lines.length==0">
+                    Checkout
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
