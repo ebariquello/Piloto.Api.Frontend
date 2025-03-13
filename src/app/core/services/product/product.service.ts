@@ -42,4 +42,7 @@ export class ProductService {
   updateProduct(body: ProductModel): Observable<ProductModel> {
     return this.http.put<ProductModel>(`${environment.products}`, body);
   }
+  deleteProduct(productId: number): Observable<number> {
+    return this.http.delete<number>(`${environment.products}/${productId}`);
+  }
 }

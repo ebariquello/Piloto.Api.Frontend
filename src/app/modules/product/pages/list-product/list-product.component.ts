@@ -24,12 +24,14 @@ export class ListProductComponent implements OnInit {
     { title: 'Edit' },
     { iconName: 'icon_excluir', title: 'Delete' },
   ];
-
   gridData: ProductModel[] = [];
   gridData$ = new Subject<ProductModel[]>();
-
   gridLoading: boolean = false;
+  showConfirmDeleteModal: boolean = false;
+  modalDeleteMessage: string = '';
+  modalTitle: string = 'Delete Product Confirmation';
 
+  private produtoIdToDelete: number = 0;
   constructor(
     private productService: ProductService,
     private toastr: ToastrService,
@@ -46,14 +48,44 @@ export class ListProductComponent implements OnInit {
       if (event.ActionIndex === 0) {
         this.router.navigate(['products/edit/', productAux.id]);
       } else {
-        this.gridData = this.gridData.filter(
-          (data) => data.id !== productAux.id
-        );
-        this.gridData$.next(this.gridData);
+        // this.gridData = this.gridData.filter(
+        //   (data) => data.id !== productAux.id
+        // );
+        // this.gridData$.next(this.gridData);
+        this.produtoIdToDelete = productAux.id;
+        this.modalDeleteMessage = `Are you sure you want to delete this Product : ${productAux.id} - ${productAux.name}?`;
+        this.showConfirmDeleteModal = true;
       }
     }
   }
+  onConfirmDeleteModal(): void {
+    // Handle the delete action when the user confirms
+    if (this.produtoIdToDelete) {
+      console.log('Deleting product...');
+      this.productService.deleteProduct(this.produtoIdToDelete).subscribe(
+        (res) => {
+          // this.router.navigate(['/products']);
+          // this.toastr.success('Product updated successfully');
+          if (res > 0) {
+            this.gridData = this.gridData.filter(
+              (data) => data.id !== this.produtoIdToDelete
+            );
+            this.gridData$.next(this.gridData);
+            this.toastr.success('Product deleted successfully');
+          }
+        },
+        (err) => this.toastr.error(err)
+      );
 
+      // Close the modal after confirming
+      this.showConfirmDeleteModal = false;
+    }
+  }
+
+  onCancelDeleteModal(): void {
+    // Close the modal when the user cancels
+    this.showConfirmDeleteModal = false;
+  }
   getProducts(): void {
     this.gridLoading = true;
 

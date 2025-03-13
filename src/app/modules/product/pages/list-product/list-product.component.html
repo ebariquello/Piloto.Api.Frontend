@@ -11,4 +11,12 @@
   <!-- <app-table [tableData$]="tableData$" [tableHeaders]="tableHeaders" [tableRows]="tableRows"
     [tableActions]="tableActions" (sendActionEmitter)="deleteRowItem($event)" >
   </app-table> -->
+  <app-modal-confirm
+  *ngIf="showConfirmDeleteModal"
+  [title]="modalTitle"
+  [message]="modalDeleteMessage"
+  (confirm)="onConfirmDeleteModal()"
+  (cancel)="onCancelDeleteModal()">
+  </app-modal-confirm>
+
 </div>

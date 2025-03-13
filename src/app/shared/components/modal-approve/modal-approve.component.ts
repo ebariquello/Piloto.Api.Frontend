@@ -1,4 +1,9 @@
-import { Component, ChangeDetectionStrategy, Output, EventEmitter } from '@angular/core';
+import {
+  Component,
+  ChangeDetectionStrategy,
+  Output,
+  EventEmitter,
+} from '@angular/core';
 
 import { CompleteTaskEnum } from 'app/shared/enums/complete-task.enum';
 
@@ -6,10 +11,9 @@ import { CompleteTaskEnum } from 'app/shared/enums/complete-task.enum';
   selector: 'app-modal-approve',
   templateUrl: './modal-approve.component.html',
   styleUrls: ['./modal-approve.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ModalApproveComponent {
-
   @Output() emitAproveSignal = new EventEmitter<CompleteTaskEnum>();
   @Output() emitCloseModal = new EventEmitter<string>();
 
@@ -22,5 +26,4 @@ export class ModalApproveComponent {
   closeModal(): void {
     this.emitCloseModal.emit('approveModal');
   }
-
 }

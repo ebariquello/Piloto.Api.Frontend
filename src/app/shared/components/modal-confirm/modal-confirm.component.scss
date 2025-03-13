@@ -1,0 +1,72 @@
+@import 'main-styles';
+
+// .modal-confirm {
+//   padding: 8px;
+
+//   h3 {
+//     margin: 0 -18px 15px;
+//     padding: 0px 18px 14px;
+//     border-bottom: 1px solid $color-gray-10;
+//     font-weight: lighter;
+//   }
+
+//   .btn-success {
+//     @include btn-success;
+//     margin-bottom: 0;
+//   }
+
+//   .btn-hyperlink {
+//     @include hyperlink;
+//     background: transparent;
+//     margin-right: 25px;
+//     padding: 10px 0;
+//     text-transform: lowercase;
+//   }
+
+//   &__buttons {
+//     display: flex;
+//     justify-content: flex-end;
+//     margin-top: 30px;
+//   }
+// }
+.modal-overlay {
+  position: fixed; /* Fix the overlay to the screen */
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent background */
+  display: flex;
+  justify-content: center; /* Center horizontally */
+  align-items: center; /* Center vertically */
+  z-index: 999; /* Ensure it appears above other content */
+}
+
+.modal-confirm {
+  background: #fff; /* White background for the modal */
+  padding: 20px;
+  border-radius: 8px; /* Optional rounded corners */
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Light shadow for depth */
+  max-width: 400px; /* Maximum width of the modal */
+  width: 100%; /* Ensure it can shrink to fit smaller screens */
+}
+
+.modal-confirm h3 {
+  margin-top: 0;
+  border-bottom: 1px solid #e0e0e0; /* Light border at the bottom of the title */
+  font-size: 2rem; /* Larger title font */
+}
+
+.modal-confirm p {
+  font-size: 16px;
+  line-height: 20px;
+  font-weight: lighter;
+}
+
+.modal-confirm__buttons {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 20px;
+  margin-right: 10px;
+  gap: 10px;
+}

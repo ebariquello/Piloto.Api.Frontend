@@ -16,6 +16,7 @@ import { FormCreateEditProductComponent } from './components/form-create-edit-pr
 import { ToggleEmployeeModule } from 'app/shared/components/toggle-employee/toggle-employee.module';
 import { CommentFormModule } from 'app/shared/components/comment-form/comment-form.module';
 import { ProductService } from 'app/core/services/product/product.service';
+import { ModalConfirmModule } from 'app/shared/components/modal-confirm/modal-confirm.module';
 
 @NgModule({
   declarations: [
@@ -29,6 +30,7 @@ import { ProductService } from 'app/core/services/product/product.service';
     ProductRoutingModule,
     RouterModule,
     GridModule,
+    ModalConfirmModule,
     TableModule,
     ReactiveFormsModule,
     IMaskModule,
