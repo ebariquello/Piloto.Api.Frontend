@@ -1,0 +1,19 @@
+{ 
+  "/users/login": "/login",
+  "/users/information": "/userInformation",
+  "/parameters/query": "/parameters",
+  "/parameters/parameter/4": "/parameter04",
+  "/parameters/parameter/5": "/parameter05",
+  "/parameters/parameter/6": "/parameter06",
+  "/parameters/add-parameter-table": "/addParameter",
+  "/parameters/complete-task": "/completeTask",
+  "/workflows/pending-approvals" : "/workflowsPending",
+  "/workflows/submitted-approvals" : "/workflowsSubmitted",
+  "/flex-conditions/query": "/flexConditions",
+  "/flex-conditions/flex-condition-table/1": "/flexConditionTable01",
+  "/flex-conditions/flex-condition-table/2": "/flexConditionTable02",
+  "/flex-conditions/flex-condition-table/3": "/flexConditionTable03",
+  "/flex-conditions/payment-product": "/paymentProduct",
+  "/flex-conditions/modality": "/modality",
+  "/flex-conditions/add-flex-condition-table": "/addFlex"
+}

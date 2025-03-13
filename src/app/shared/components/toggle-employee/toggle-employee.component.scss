@@ -1,0 +1,38 @@
+@import 'main-styles';
+
+.toggle-employee {
+  strong {
+    text-transform: lowercase;
+  }
+
+  a {
+    @include hyperlink;
+  }
+
+  ul {
+    margin-top: 10px;
+    padding: 0;
+    list-style: none;
+
+    li {
+      margin-top: 10px;
+    }
+  }
+
+  span {
+    padding-left: 40px;
+    @include hyperlink;
+    text-transform: lowercase;
+    text-decoration: none;
+
+    &:after {
+      content: ' \e9cc';
+      padding-top: 5px;
+      font-family: $font-fonts;
+    }
+
+    &.is--toggle:after {
+      content: ' \e9ce';
+    }
+  }
+}

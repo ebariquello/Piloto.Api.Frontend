@@ -1,0 +1,33 @@
+@import 'main-styles';
+
+.login {
+  &__aside,
+  &__form {
+    @include center-elements;
+    flex-direction: column;
+    height: 100vh;
+  }
+
+  &__aside {
+    position: relative;
+    background: url('/assets/images/background-login.svg');
+    background-size: cover;
+
+    &__icon {
+      position: absolute;
+      top: 5px;
+      right: 25px;
+      font-family: $font-fonts;
+      color: $color-white;
+      font-size: 8em;
+      pointer-events: none;
+    }
+
+    &__title {
+      margin-top: 150px;
+      font-size: 4.3em;
+      font-weight: bold;
+      color: $color-white;
+    }
+  }
+}

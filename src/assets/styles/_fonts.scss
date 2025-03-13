@@ -1,0 +1,42 @@
+/*  DISPLAY */
+
+@font-face {
+  font-family: 'Display';
+  src: url('/assets/fonts/Display/Display-Light.woff') format('woff');
+  font-weight: 300;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Display';
+  src: url('/assets/fonts/Display/Display-Regular.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Display';
+  src: url('/assets/fonts/Display/Display-Bold.woff') format('woff');
+  font-weight: bold;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Display';
+  src: url('/assets/fonts/Display/Display-Black.woff') format('woff');
+  font-weight: 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+/*  FONTS (For icons) */
+
+@font-face {
+  font-family: 'fonts_master_24px_v1';
+  src: url('/assets/fonts/fonts_master_24px_v1.woff') format('woff');
+  font-weight: normal;
+  font-display: swap;
+}

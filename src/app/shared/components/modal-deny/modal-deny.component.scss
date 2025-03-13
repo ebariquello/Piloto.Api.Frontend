@@ -1,0 +1,33 @@
+@import 'main-styles';
+
+.modal-deny {
+  padding: 8px;
+
+  h3 {
+    margin: 0 -18px 15px;
+    padding: 0px 18px 14px;
+    border-bottom: 1px solid $color-gray-10;
+    font-weight: lighter;
+  }
+
+  .btn-warning {
+    @include btn-success;
+    margin-bottom: 0;
+    background-color: $color-warning;
+    border-color: $color-warning;
+  }
+
+  .btn-hyperlink {
+    @include hyperlink;
+    background: transparent;
+    margin-right: 25px;
+    padding: 10px 0;
+    text-transform: lowercase;
+  }
+
+  &__buttons {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 30px;
+  }
+}

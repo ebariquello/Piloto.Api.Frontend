@@ -1,0 +1,17 @@
+@import 'main-styles';
+
+.create-edit-product {
+  h2 {
+    margin-top: 40px;
+  }
+
+  .btn-success {
+    @include btn-success;
+  }
+
+  &__back {
+    @include hyperlink;
+    margin: 20px 0 -15px;
+    text-transform: lowercase;
+  }
+}

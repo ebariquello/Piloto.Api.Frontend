@@ -1,0 +1,26 @@
+@import 'main-styles';
+
+.comment-form {
+  margin: 30px 0 50px;
+
+  strong {
+    text-transform: lowercase;
+  }
+
+  textarea {
+    width: 100%;
+    margin-bottom: 20px;
+    padding: 10px;
+    border-radius: 3px;
+    border-color: $color-gray-20;
+  }
+
+  .btn-success {
+    @include btn-success;
+  }
+
+  .btn-warning {
+    @include btn-warning;
+    margin-right: 20px;
+  }
+}

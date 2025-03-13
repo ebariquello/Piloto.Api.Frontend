@@ -1,0 +1,36 @@
+@mixin vertical-align {
+  display: flex;
+  align-items: center;
+}
+
+@mixin center-elements {
+  @include vertical-align;
+  justify-content: center;
+}
+
+@mixin hyperlink {
+  font-weight: bold;
+  text-decoration: underline;
+  text-underline-position: under;
+  color: $color-hyperlink;
+  user-select: none;
+  cursor: pointer;
+}
+
+@mixin btn-success {
+  margin-bottom: 30px;
+  padding: 8px 70px;
+  background: $color-success;
+  border-color: $color-success;
+}
+
+@mixin btn-warning {
+  border: 0;
+  background: transparent;
+  text-decoration: underline;
+  text-underline-position: under;
+  text-transform: lowercase;
+  font-weight: bold;
+  color: $color-warning;
+}
+

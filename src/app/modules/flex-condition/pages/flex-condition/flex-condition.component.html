@@ -1,0 +1,11 @@
+<div class="container">
+  <app-grid
+    gridTitle="Consulta de condições mínimas de flex"
+    [gridLoading]="gridLoading"
+    [gridHeaders]="gridHeaders"
+    [gridRows]="gridRows"
+    [gridActions]="gridActions"
+    [gridData$]="gridData$"
+    (sendActionEmitter)="flexConditionTableActions($event)">
+  </app-grid>
+</div>

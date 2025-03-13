@@ -1,0 +1,48 @@
+@import 'main-styles';
+
+.form-create-edit {
+  label {
+    &:after {
+      content: '*';
+      padding-left: 3px;
+      color: $color-brand-pumpkin;
+    }
+  }
+ 
+
+  .row {
+    display: flex;
+    align-items: flex-end;
+    margin-top: 40px;
+
+    &:last-of-type {
+      margin-top: 20px;
+      margin-bottom: 50px;
+    }
+    .colButton {
+     
+      
+    
+      width: 25%;
+      .btn-success {
+        margin-top: 40px;
+        margin-bottom: 0px!important;
+        @include btn-success;
+       
+      }
+    }
+  }
+
+  &__include {
+    @include hyperlink;
+  }
+
+  &__errors {
+    margin-top: 40px;
+    color: $color-brand-pumpkin;
+
+    ul {
+      padding: 0 0 0 14px;
+    }
+  }
+}

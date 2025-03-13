@@ -1,0 +1,72 @@
+<div class="container detail-flex-condition">
+  <div class="detail-flex-condition__back">
+    <a (click)="location.back()">Voltar</a>
+  </div>
+
+  <div class="box">
+    <h2>{{ pageTitle }}</h2>
+
+    <div class="row detail-flex-condition__info">
+      <div class="col-xs-2">
+        <p><strong>Criado em</strong></p>
+        <p>{{viewData.RegisterDate}}</p>
+      </div>
+      <div class="col-xs-2">
+        <p><strong>Início da vigência</strong></p>
+        <p>{{viewData.EffectiveDate}}</p>
+      </div>
+      <div *ngIf="viewData.EndDate" class="col-xs-2">
+        <p><strong>Fim da vigência</strong></p>
+        <p>{{viewData.EndDate}}</p>
+      </div>
+      <div class="col-xs-2">
+        <p><strong>Status</strong></p>
+        <p>{{viewData.ApprovalFlowStatusDescription}}</p>
+      </div>
+      <div class="col-xs-2">
+        <p><strong>Versão</strong></p>
+        <p>{{viewData.Id}}</p>
+      </div>
+      <div class="col-xs-2">
+        <p><strong>Solicitante</strong></p>
+        <p>{{viewData.EmployeeFunctionalRegister}}</p>
+      </div>
+    </div>
+
+    <div *ngIf="!tableWaitingApproval" class="row detail-flex-condition__info">
+      <div class="col-xs-2">
+        <p><strong>Aprovado em</strong></p>
+        <p>{{viewData?.ApprovalDate}}</p>
+      </div>
+      <div class="col-xs-2">
+        <p><strong>Aprovador</strong></p>
+        <p>{{viewData?.EmployeeFunctionalApproval}}</p>
+      </div>
+    </div>
+
+    <app-table
+      [tableData]="viewData?.MinimumFlexConditions"
+      [tableHeaders]="tableHeaders"
+      [tableRows]="tableRows">
+    </app-table>
+
+    <div *ngIf="tableWaitingApproval" class="detail-flex-condition__actions">
+      <app-comment-form [tableId]="viewData?.Id" [tableType]="TableTypeEnum.FLEX_CONDITION"></app-comment-form>
+    </div>
+
+    <div *ngIf="!tableWaitingApproval" class="detail-flex-condition__actions">
+      <div class="detail-flex-condition__comment">
+        <p><strong>Comentário</strong></p>
+        {{viewData?.ActionComment || 'Sem comentário.'}}
+      </div>
+  
+      <div class="row">
+        <a class="pull-right detail-flex-condition__duplicate"
+          [routerLink]="['/flex-condition/duplicate/', viewData?.Id]">
+          duplicar
+        </a>
+      </div>
+    </div>
+
+  </div>
+</div>

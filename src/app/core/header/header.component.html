@@ -1,0 +1,58 @@
+<div *ngIf="isLoggedin" class="main-header">
+  <nav class="main-nav">
+    <!-- <div class="main-nav__brand">
+      <a routerLink="workflow">
+        <img src="/assets/images/logo-beta.png" alt="Logo Template">
+      </a>
+    </div> -->
+    <div class="main-nav__menu">
+      <ul>
+        <li class="main-nav__item" (click)="closeSubMenus()">
+          <a routerLink="workflow">Pendências</a>
+        </li>
+        <li class="main-nav__item main-nav__dropdown" (click)="toggleSubMenu(0)"
+          [ngClass]="{'item-selected': showSubMenus[0]}">
+          <div class="main-nav__dropdown__link">
+            Condições mínimas de flex
+          </div>
+          <div class="main-nav__dropdown__menu" [ngClass]="{'menu-selected': showSubMenus[0]}">
+            <a class="main-nav__dropdown__item" routerLink="flex-condition">
+              Consulta condições mínimas de flex</a>
+            <a class="main-nav__dropdown__item" routerLink="flex-condition/new">
+              Criar condições mínimas de flex
+            </a>
+          </div>
+        </li>
+        <li class="main-nav__item main-nav__dropdown" (click)="toggleSubMenu(1)"
+          [ngClass]="{'item-selected': showSubMenus[1]}">
+          <div class="main-nav__dropdown__link">
+            Products
+          </div>
+          <div class="main-nav__dropdown__menu" [ngClass]="{'menu-selected': showSubMenus[1]}">
+            <a class="main-nav__dropdown__item" routerLink="products">
+              List Products</a>
+            <a class="main-nav__dropdown__item" routerLink="products/new">
+              Create Products</a>
+          </div>
+        </li>
+      </ul>
+      <div class="main-nav__actions">
+        <div class="main-nav__actions__info">
+          <span aria-hidden="true" class="icon icon_user_perfil" aria-hidden="true"></span>
+          <span *ngIf="!userInfoLoading && userInfo">
+            {{ userInfo?.name }} 
+          </span>
+          <span *ngIf="userInfoLoading">
+            Carregando...
+          </span>
+        </div>
+        <div class="main-nav__actions__info">
+          <a class="logout-button" (click)="logoutUser()">
+            <span aria-hidden="true" class="icon icon_sair" aria-hidden="true"></span>
+            Sair
+          </a>
+        </div>
+      </div>
+    </div>
+  </nav>
+</div>

@@ -1,0 +1,53 @@
+<div class="grid">
+  <div class="grid__title box">
+    <h2 id="grid__title">{{ gridTitle }}</h2>
+  </div>
+
+  <table class="grid__data" aria-describedby="grid__title">
+    <thead>
+      <tr class="grid__data__header">
+        <th *ngFor="let header of gridHeaders; let row of gridRows" [id]="row">{{ header }}</th>
+        <th *ngFor="let action of gridActions; let i = index" id="{{ 'action-' + i }}"></th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let row of gridData">
+        <td *ngFor="let data of gridRows">
+          <span class="grid--is-centered">
+            <i *ngIf="data === 'ApprovalFlowStatusDescription' && isAprovado(row[data])"
+              class="grid__status grid__status__aprovado icon_check" aria-hidden="true">
+            </i>
+
+            <i *ngIf="data === 'ApprovalFlowStatusDescription' && isReprovado(row[data])"
+              class="grid__status grid__status__reprovado icon_fechar" aria-hidden="true">
+            </i>
+
+            {{ row[data] }}
+          </span>
+        </td>
+
+        <td class="grid__actions">
+          <!-- <span  *ngFor="let action of gridActions; let i = index"  title="{{ action.iconTitle }}" class="icon {{ action.iconName }}"
+            (click)="sendAction(row, i, action)">
+            
+          </span> -->
+          <span *ngFor="let action of gridActions; let i = index"
+            title="{{ action?.iconTitle ? action.iconTitle : '' }}" class="icon {{ action?.iconName ? action?.iconName : '' }}"
+            (click)="sendAction(row, i)">
+            {{ action?.title && !action?.iconName ? action.title : '' }}
+          </span>
+        </td>
+      </tr>
+      <tr *ngIf="!gridLoading && gridData && gridData.length <= 0">
+        <td [attr.colspan]="gridHeaders.length + gridActions.length">
+          Não há dados para exibir
+        </td>
+      </tr>
+      <tr *ngIf="gridLoading && gridData && gridData.length <= 0" class="text-center">
+        <td [attr.colspan]="gridHeaders.length + gridActions.length">
+          <span aria-label="Carregando" class="grid--is-loading icon_atualizando is--rotating"></span>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>

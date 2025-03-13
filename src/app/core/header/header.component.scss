@@ -1,0 +1,123 @@
+@import 'main-styles';
+
+.main-header {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  margin: auto;
+  padding: 15px;
+  background: $color-brand-pumpkin;
+  z-index: $layer-front;
+}
+
+.main-nav {
+  display: flex;
+  max-width: $media-lg;
+  margin: auto;
+  padding: 0 15px;
+  color: $color-white;
+
+  ul {
+    display: flex;
+    list-style: none;
+    margin: 0;
+
+    li {
+      margin: -15px 0;
+      padding: 22px 15px 14px;
+      border-bottom: 4px solid transparent;
+      font-size: 1.2em;
+      font-weight: bold;
+      font-style: normal;
+      text-transform: lowercase;
+      user-select: none;
+
+      &:hover {
+        border-bottom: 4px solid $color-white;
+      }
+    }
+  }
+
+  a {
+    color: $color-white;
+
+    &:hover {
+      text-decoration: none;
+      cursor: pointer;
+    }
+  }
+
+  &__actions {
+    display: flex;
+    margin-bottom: -7px;
+    font-size: 1.2em;
+    line-height: 1;
+
+    .icon {
+      margin: 0 8px 0 35px;
+      font-size: 1.4em;
+    }
+
+    &__info,
+    &__info a {
+      @include vertical-align;
+    }
+  }
+
+  &__menu,
+  &__dropdown {
+    @include vertical-align;
+  }
+
+  &__menu {
+    width: 100%;
+    justify-content: space-between;
+  }
+
+  &__dropdown {
+    position: relative;
+    cursor: pointer;
+
+    &:after {
+      content: '\e9cc';
+      margin-left: 7px;
+      font-family: $font-fonts;
+    }
+
+    &.item-selected {
+      background: $color-white;
+      color: $color-black;
+  
+      &:after {
+        content: '\e9ce';
+        color: $color-brand-pumpkin;
+      }
+    }
+
+    &__menu {
+      display: none;
+      position: absolute;
+      top: 55px;
+      left: 0;
+      flex-direction: column;
+      background: $color-white;
+      padding: 12px 20px;
+      font-weight: normal;
+      text-transform: none;
+      font-size: .85em;
+
+      a {
+        padding: 6px 0;
+        color: $color-black;
+
+        &:hover {
+          color: $color-brand-pumpkin;
+        }
+      }
+    }
+  }
+}
+
+.menu-selected {
+  display: flex;
+}

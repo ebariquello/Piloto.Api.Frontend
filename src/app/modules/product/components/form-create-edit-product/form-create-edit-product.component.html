@@ -1,0 +1,57 @@
+<form [formGroup]="formProduct" class="form-create-edit">
+
+
+  <div class="row">
+    <div class="col-xs-5">
+      <label for="name-input">Name</label>
+      <input
+        [formControl]="formProduct.get('name')"
+        type="text"
+        id="name-input"
+        required>
+    </div>
+    <div class="col-xs-3">
+      <label for="stock-input">Stock</label>
+      <input
+        [formControl]="formProduct.get('stock')"
+        type="number"
+        id="stock-input"
+        required>
+    </div>
+    <div class="col-xs-3">
+      <label for="price-input">Price</label>
+      <input
+        [formControl]="formProduct.get('price')"
+        [imask]="currencyMask"
+        [unmask]="true"
+        type="text"
+        id="price-input"
+        required>
+    </div>
+      <div class="col-xs-1 colButton">
+        <button type="button" (click)="addEditProduct()" class="btn btn-success pull-right">Add</button>
+      </div>
+
+  </div>
+
+  <div class="form-create-edit__errors" *ngIf="formProduct?.invalid && formProduct?.touched">
+
+    <ul>
+      <li *ngIf="name.touched && name.errors?.minlength">
+        Name is required and min chars expected is 3.
+      </li>
+      <li *ngIf="stock.errors?.min">
+        Stock is required and its minimal value is 1.
+      </li>
+      <li *ngIf="stock.errors?.max">
+        Stock is required and its maximum value is 99999.
+      </li>
+      <li *ngIf="price.errors?.min">
+        Price is required and its minimal value is 0.1.
+      </li>
+      <li *ngIf="price.errors?.max">
+        Price is required and its maximum value is 99999.99.
+      </li>
+    </ul>
+  </div>
+</form>

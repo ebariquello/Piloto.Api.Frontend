@@ -1,0 +1,44 @@
+<form
+  [formGroup]="formLogin"
+  class="form-login needs-validation"
+  autocomplete="off"
+  (submit)="sendForm()">
+  <div class="form-group email">
+    <input
+      formControlName="email"
+      type="text"
+      spellcheck="false"
+      class="form-control md-animation-input"
+      name="email"
+      id="user-input"
+      autocomplete="new-password"
+      required>
+      <label for="user-input" class="form-group__label">email *</label>
+  </div>
+
+  <div class="form-group email">
+    <input
+      formControlName="password"
+      type="password"
+      spellcheck="false"
+      class="form-control md-animation-input"
+      name="password"
+      id="password-input"
+      autocomplete="new-password"
+      required>
+      <label for="password-input" class="form-group__label">password *</label>
+  </div>
+
+  <button
+    type="submit"
+    id="btn-login"
+    class="btn btn-login"
+    [disabled]="loading">
+    <span *ngIf="loading">
+      <span aria-label="Carregando" class="icon_atualizando is--rotating"></span>
+    </span>
+    <span *ngIf="!loading">
+      Login
+    </span>
+  </button>
+</form>

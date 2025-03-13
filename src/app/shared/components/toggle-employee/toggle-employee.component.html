@@ -1,0 +1,25 @@
+<div class="toggle-employee">
+  <header class="toggle-employee__header">
+    <strong>Usuários envolvidos</strong>
+    <span
+      [ngClass]="{ 'is--toggle': toggle }"
+      (click)="toggle = !toggle">
+      Expandir
+    </span>
+  </header>
+  <div *ngIf="toggle" class="toggle-employee__toggle">
+  <ul *ngIf="employees.length > 0" class="toggle-employee__toggle__employees">
+    <li *ngFor="let employee of employees">
+      <a (click)="openEmployeeModal(employee)">{{ employee }}</a>
+    </li>
+  </ul>
+    <ul *ngIf="employees.length <= 0" class="toggle-employee__toggle__employees">
+      <li>Não há usuários para exibir.</li>
+    </ul>
+  </div>
+</div>
+
+<ngx-smart-modal #userModal identifier="userModal">
+  <app-user-detail [userFunctional]="userSelected">
+  </app-user-detail>
+</ngx-smart-modal>

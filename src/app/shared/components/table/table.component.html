@@ -1,0 +1,23 @@
+<table class="table-cc">
+  <caption>Tabela de detalhes</caption>
+  <thead>
+    <th *ngFor="let header of tableHeaders; let row of tableRows" [id]="row">{{ header }}</th>
+    <th *ngFor="let action of tableActions; let i = index" id="{{ 'action-' + i }}"></th>
+  </thead>
+  <tbody>
+    <tr *ngFor="let rows of tableData">
+      <td *ngFor="let data of tableRows">{{ rows[data] }}</td>
+      <td *ngFor="let action of tableActions; let i = index" class="table-cc__actions">
+        <span
+          title="{{ action.iconTitle }}"
+          class="icon {{ action.iconName }}"
+          (click)="sendAction(rows, i)"></span>
+      </td>
+    </tr>
+    <tr *ngIf="tableData && tableData.length <= 0">
+      <td [attr.colspan]="tableHeaders.length + tableActions.length">
+        Tabela vazia.
+      </td>
+    </tr>
+  </tbody>
+</table>

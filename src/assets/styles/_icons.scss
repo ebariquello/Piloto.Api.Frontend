@@ -1,0 +1,35 @@
+[class^="icon_"]:before, [class*=" icon_"]:before,
+[class^="icon_"]:after, [class*=" icon_"]:after {
+  font-family: 'fonts_master_24px_v1' !important;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.icon_sair:before {
+  content: "\eaab";
+}
+
+.icon_user_perfil:before {
+  content: "\e9c0";
+}
+
+.icon_excluir:before {
+  content: "\e950";
+}
+
+.icon_check:before {
+  content: "\e927";
+}
+
+.icon_fechar:before {
+  content: "\e956";
+}
+
+.icon_atualizando:before {
+  content: "\e914";
+}

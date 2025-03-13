@@ -1,0 +1,129 @@
+@import '~ngx-smart-modal/ngx-smart-modal';
+@import './assets/styles/main-styles.scss';
+
+
+/*
+ * INDEX
+ *
+ * 1.   BASE
+ * 1.1  FORMS
+ * 2.   LAYOUT
+ * 3.   THEME
+ * 4.   STATUS
+ * 
+ */
+
+/* 1. BASE */
+/* Basic styles */
+
+body {
+  background: $color-gray-10;
+  font-family: $font-default;
+  color: $color-font;
+  padding-top: 63px;
+}
+
+a,
+a:hover,
+a:active,
+a:visited,
+a:focus {
+  text-decoration:none;
+}
+
+h2 {
+  margin: 0;
+  font-size: 1.7em;
+  font-weight: bold;
+  color: $color-brand-pumpkin;
+}
+
+/* 1.1 FORMS */
+
+label {
+  text-transform: lowercase;
+  font-size: 14px;
+}
+
+input,
+select {
+  width: 100%;
+  max-width: 100%;
+  padding: 6px 2px;
+  border: 0;
+  border-bottom: 1px solid $color-gray-30;
+  font-size: 18px;
+}
+
+select:active,
+select:focus {
+  border-bottom: 1px solid $color-brand-pumpkin;
+}
+
+/* 2. LAYOUT */
+/* Used for layout main components */
+
+.box {
+  margin: 40px 0;
+  padding: 20px 120px;
+  border-radius: 4px;
+  background: $color-white;
+  box-shadow: 0 1px 1px 0 rgba(122, 109, 96, 0.15);
+}
+
+/* 3. THEME */
+/* Overrides other themes */
+
+.toast-container .ngx-toastr {
+  max-width: $media-md;
+  box-shadow: none;
+  font-size: 1.1em;
+}
+
+.toast-container {
+  z-index: 99;
+}
+
+.toast-container .ngx-toastr:hover {
+  box-shadow: none;
+}
+
+.toast-container {
+  margin-top: 63px;
+}
+
+.toast-close-button {
+  top: 0em;
+}
+
+button.nsm-dialog-btn-close {
+  top: 18px;
+  right: 15px;
+}
+
+/* 4. STATUS */
+
+.is--login {
+  padding-top: 0;
+}
+
+.is--login .toast-container {
+  margin-top: 0;
+}
+
+@keyframes rotating {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.is--rotating {
+  display: inline-block;
+  font-size: 20px;
+  width: 20px;
+  height: 20px;
+  animation: rotating 2s linear infinite;
+}

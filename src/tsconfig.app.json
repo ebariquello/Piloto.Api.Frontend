@@ -1,0 +1,29 @@
+{
+  "extends": "../tsconfig.json",
+  "compilerOptions": {
+      "removeComments": true,
+      "outDir": "../out-tsc/app",
+      "baseUrl": "./",
+      "types": ["node"]
+  },
+  "angularCompilerOptions": {
+      "fullTemplateTypeCheck": true,
+      "preserveWhitespaces": true
+  },
+  "files": [
+    "./main.ts",
+    "./polyfills.ts"
+  ],
+  "include": [
+    "./app/**/*.d.ts"
+  ],
+  "exclude": [
+      "node_modules",
+      "test.ts",
+      "test-suite.ts",
+      "**/*.spec.ts",
+      "**/*.stories.ts",
+      ".storybook",
+      "./app/test/*.ts"
+  ]
+}

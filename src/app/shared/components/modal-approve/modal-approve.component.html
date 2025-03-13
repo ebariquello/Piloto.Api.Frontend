@@ -1,0 +1,16 @@
+<div class="modal-approve">
+  <h3>Aprovar solicitação</h3>
+  <p>Tem certeza de que deseja aprovar essa solicitação?</p>
+  <div class="modal-approve__buttons">
+    <span
+      class="btn-hyperlink"
+      (click)="closeModal()">
+      Não, cancelar
+    </span>
+    <button
+      class="btn btn-success"
+      (click)="completeTask(CompleteTaskEnum.AGUARDANDO_ATIVACAO)">
+      Sim, aprovar
+    </button>
+  </div>
+</div>

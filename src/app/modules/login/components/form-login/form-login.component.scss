@@ -1,0 +1,50 @@
+@import 'main-styles';
+
+.form-login {
+  min-width: 490px;
+
+  button {
+    width: 100%;
+    padding: 8px;
+    background: $color-brand-pumpkin;
+    font-size: 1.2em;
+    color: $color-white;
+  }
+  
+  .form-group {
+    position: relative;
+
+    input,
+    label {
+      font-size: 1.2em;
+    }
+
+    input {
+      margin-bottom: 45px;
+      padding: 0;
+      background: transparent;
+      border: 0;
+      border-radius: 0;
+      border-bottom: 1px solid $color-gray-20;
+      box-shadow: none;
+      color: $color-brand-pumpkin;
+
+      &:focus + label,
+      &:valid + label {
+        margin-bottom: 30px;
+        font-size: 1em;
+        color: $color-gray-30;
+        transition: 500ms ease;
+      }
+    }
+
+    label {
+      position: absolute;
+      bottom: 0;
+      font-weight: normal;
+      color: $color-brand-pumpkin;
+      pointer-events: none;
+      transition: 500ms ease;
+    }
+  }
+}

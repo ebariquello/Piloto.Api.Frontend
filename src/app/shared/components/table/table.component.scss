@@ -1,0 +1,45 @@
+@import 'main-styles';
+
+.table-cc {
+  width: calc(100% + 240px);
+  margin: 25px -120px 45px;
+  border-bottom: 3px solid $color-gray-10;
+
+  caption {
+    display: none;
+  }
+
+  thead {
+    border-top: 3px solid $color-gray-10;
+    border-bottom: 3px solid $color-gray-10;
+    text-transform: lowercase;
+
+    tr {
+      background: $color-white;
+    }
+  }
+  
+  td,
+  th {
+    padding: 16px 0;
+
+    &:first-of-type {
+      padding-left: 120px;
+    }
+
+    &:last-of-type {
+      padding-right: 120px;
+    }
+  }
+
+  tr:nth-child(odd) {
+    background-color: $color-gray-00;
+  }
+
+  .icon {
+    font-size: 19px;
+    line-height: 1em;
+    color: $color-hyperlink;
+    cursor: pointer;
+  }
+}

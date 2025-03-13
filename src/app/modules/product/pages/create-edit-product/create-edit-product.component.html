@@ -1,0 +1,14 @@
+<div class="container create-edit-product">
+  <div *ngIf="hasParamId" class="create-edit-product__back">
+    <a (click)="location.back()">Voltar</a>
+  </div>
+  <div class="box">
+    <h2 *ngIf="hasParamId">Edit Product</h2>
+    <h2 *ngIf="!hasParamId">Create Product</h2>
+    <app-form-create-edit-product
+      #formProduct
+      [productToEdit]="productToEdit"
+      (formProductEmitter)="sendSaveProduct($event)">
+    </app-form-create-edit-product>
+  </div>
+</div>

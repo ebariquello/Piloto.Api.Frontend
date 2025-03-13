@@ -1,0 +1,6 @@
+# Disable line ending conversion
+# Used to solve line ending CRLF in Windows vs LF in Linux
+
+* text=auto eol=lf
+*.{cmd,[cC][mM][dD]} text eol=crlf
+*.{bat,[bB][aA][tT]} text eol=crlf

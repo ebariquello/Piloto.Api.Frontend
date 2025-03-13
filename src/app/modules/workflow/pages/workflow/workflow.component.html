@@ -1,0 +1,21 @@
+<div class="container">
+  <app-grid
+    gridTitle="Pendências a serem analisadas"
+    [gridLoading]="pendingLoading"
+    [gridHeaders]="gridHeaders"
+    [gridRows]="gridRowsPending"
+    [gridActions]="gridActions"
+    [gridData$]="gridDataPending$"
+    (sendActionEmitter)="detailsPendency($event)">
+  </app-grid>
+
+  <app-grid
+    gridTitle="Pendências enviadas para aprovação"
+    [gridLoading]="submittedLoading"
+    [gridHeaders]="gridHeaders"
+    [gridRows]="gridRowsSubmitted"
+    [gridActions]="gridActions"
+    [gridData$]="gridDataSubmitted$"
+    (sendActionEmitter)="detailsPendency($event)">
+  </app-grid>
+</div>

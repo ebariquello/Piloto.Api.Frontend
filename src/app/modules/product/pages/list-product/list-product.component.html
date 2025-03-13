@@ -1,0 +1,14 @@
+<div class="box">
+  <app-grid
+    gridTitle="Products List"
+    [gridLoading]="gridLoading"
+    [gridHeaders]="gridHeaders"
+    [gridRows]="gridRows"
+    [gridActions]="gridActions"
+    [gridData$]="gridData$"
+    (sendActionEmitter)="productTableActions($event)">
+  </app-grid>
+  <!-- <app-table [tableData$]="tableData$" [tableHeaders]="tableHeaders" [tableRows]="tableRows"
+    [tableActions]="tableActions" (sendActionEmitter)="deleteRowItem($event)" >
+  </app-table> -->
+</div>
