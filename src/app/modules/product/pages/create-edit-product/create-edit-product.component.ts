@@ -45,19 +45,16 @@ export class CreateEditProductComponent implements OnInit {
       }
     );
   }
-  // sendAddProduct(): void {
-  //   const productValue = this.formProductComponent.getFormProduct();
-  //   this.addProduct(productValue);
-  // }
+
   sendSaveProduct(formProduct: ProductModel): void {
     if (this.hasParamId) {
-      this.updateProduct(formProduct);
+      this.onUpdatingProduct(formProduct);
     } else {
-      this.addProduct(formProduct);
+      this.onAddingProduct(formProduct);
     }
   }
 
-  private addProduct(formProduct: ProductModel): void {
+  private onAddingProduct(formProduct: ProductModel): void {
     const product = {
       ...formProduct,
       name: formProduct.name,
@@ -74,7 +71,7 @@ export class CreateEditProductComponent implements OnInit {
       (err) => this.toastr.error(err)
     );
   }
-  private updateProduct(formProduct: ProductModel): void {
+  private onUpdatingProduct(formProduct: ProductModel): void {
     formProduct.id = this.paramId;
     this.productService.updateProduct(formProduct).subscribe(
       (res) => {

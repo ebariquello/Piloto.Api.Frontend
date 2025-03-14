@@ -1,5 +1,5 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { ReactiveFormsModule } from '@angular/forms';
+import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
 
 import { IMaskModule } from 'angular-imask';
 import { ProductModel } from 'app/core/services/product/product.model';
@@ -18,13 +18,13 @@ describe('FormCreateEditProductComponent', () => {
   const addOneDay = new Date().getTime() + 86400000;
   const tomorrow = new Date(addOneDay);
 
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
+  beforeEach(async () => {
+    await TestBed.configureTestingModule({
       declarations: [FormCreateEditProductComponent],
       imports: [ReactiveFormsModule, IMaskModule, ToastrModule.forRoot()],
-      providers: [...mockServices([ToastrService])],
+      providers: [FormBuilder, mockServices([ToastrService])],
     }).compileComponents();
-  }));
+  });
 
   beforeEach(() => {
     fixture = TestBed.createComponent(FormCreateEditProductComponent);
@@ -54,7 +54,7 @@ describe('FormCreateEditProductComponent', () => {
     component.formProduct.get('price').setValue(1000);
     component.formProduct.get('stock').setValue(2000);
 
-    component.addProduct();
+    component.addEditProduct();
 
     expect(component.formProductEmitter.emit).toHaveBeenCalledWith({
       name: 'Product Test',
@@ -65,16 +65,18 @@ describe('FormCreateEditProductComponent', () => {
     expect(component.formProduct.reset).toHaveBeenCalled();
   });
 
-  it('should not addProduct if price is minor the 0.1', () => {
-    toastrServiceMock._spy.warning._func.and.returnValue('');
+  it('should not addProduct if price is minor or equal the 0', () => {
+    toastrServiceMock._spy.warning._func.and.returnValue(
+      MessagesEnums.FORM_INVALID_PENDENCIES
+    );
 
     component.ngOnInit();
 
     component.formProduct.get('name').setValue('Product Test');
-    component.formProduct.get('price').setValue(0.1);
+    component.formProduct.get('price').setValue(0);
     component.formProduct.get('stock').setValue(2000);
 
-    component.addProduct();
+    component.addEditProduct();
 
     expect(toastrServiceMock.warning).toHaveBeenCalledWith(
       MessagesEnums.FORM_INVALID_PENDENCIES
@@ -86,25 +88,10 @@ describe('FormCreateEditProductComponent', () => {
 
     component.ngOnInit();
 
-    component.addProduct();
+    component.addEditProduct();
 
     expect(toastrServiceMock.warning).toHaveBeenCalledWith(
       MessagesEnums.FORM_INVALID_PENDENCIES
     );
-  });
-
-  it('should not getFormProduct if form formCreateEditProduct is incomplete', () => {
-    toastrServiceMock._spy.warning._func.and.returnValue('');
-
-    component.ngOnInit();
-
-    component.formProduct.get('stock').setValue(3);
-
-    component.getFormProduct();
-
-    expect(toastrServiceMock.warning).toHaveBeenCalledWith(
-      MessagesEnums.FORM_INVALID_PENDENCIES
-    );
-    expect(component.getFormProduct()).toBeNull();
   });
 });

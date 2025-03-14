@@ -56,16 +56,16 @@ describe('FormLoginComponent', () => {
   });
 
   it('should show toaster if form is not valid', () => {
-    component.formLogin.get('user').setValue(null);
+    component.formLogin.get('email').setValue('');
     component.formLogin.get('password').setValue('');
 
     const toastrSpy = spyOn(toastrService, 'error');
     component.sendForm();
-    expect(toastrSpy).toHaveBeenCalledWith('Preencha os campos obrigatórios');
+    expect(toastrSpy).toHaveBeenCalledWith('Fill required fields');
   });
 
   it('should go to path if credentials are valid', fakeAsync(() => {
-    component.formLogin.get('user').setValue('teste');
+    component.formLogin.get('email').setValue('teste');
     component.formLogin.get('password').setValue('123');
 
     spyOn(userService, 'login').and.returnValue(
@@ -83,7 +83,7 @@ describe('FormLoginComponent', () => {
   }));
 
   it('should show toastr if credentials are invalid', fakeAsync(() => {
-    component.formLogin.get('user').setValue('teste');
+    component.formLogin.get('email').setValue('teste@teste.com');
     component.formLogin.get('password').setValue('123');
 
     spyOn(userService, 'login').and.returnValue(throwError({ status: 404 }));

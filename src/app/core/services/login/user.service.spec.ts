@@ -46,6 +46,7 @@ describe('UserService', () => {
 
     toastr = TestBed.get(ToastrService);
     router = TestBed.get(Router);
+
     userService = new UserService(httpClientMock, router, toastr);
   });
 
@@ -54,6 +55,13 @@ describe('UserService', () => {
   //   // });
 
   it('should create', () => {
+    const mockToken = {
+      token:
+        'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJhYzIwN2I3MC00NTY5LTRlZDQtODhjNy0yYmNiMzljMWYxYWEiLCJlbWFpbCI6ImVkdWFyZG8uYmFyaXF1ZWxsb0BwaWxvdG8uY29tIiwiZ2l2ZW5fbmFtZSI6IkVkdWFyZG8iLCJ1bmlxdWVfbmFtZSI6ImFkbWluIiwibmJmIjoxNzQxOTAyNzE4LCJleHAiOjE3NDE5MDYzMTgsImlhdCI6MTc0MTkwMjcxOCwiaXNzIjoiWW91cklzc3VlciIsImF1ZCI6IllvdXJBdWRpZW5jZSJ9.G-LgzEh6_vsBDfZcSJXQD-RhLRKAz-UdCqT_Dl7fnRw',
+      success: true,
+    };
+
+    localStorage.setItem('login', JSON.stringify({ token: mockToken }));
     expect(UserService).toBeTruthy();
   });
 
@@ -63,10 +71,11 @@ describe('UserService', () => {
 
   it('should get currentLoginValue', () => {
     const currentUser: LoginModel = {
-      token: 'meu token de teste',
+      token:
+        'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJhYzIwN2I3MC00NTY5LTRlZDQtODhjNy0yYmNiMzljMWYxYWEiLCJlbWFpbCI6ImVkdWFyZG8uYmFyaXF1ZWxsb0BwaWxvdG8uY29tIiwiZ2l2ZW5fbmFtZSI6IkVkdWFyZG8iLCJ1bmlxdWVfbmFtZSI6ImFkbWluIiwibmJmIjoxNzQxOTAyNzE4LCJleHAiOjE3NDE5MDYzMTgsImlhdCI6MTc0MTkwMjcxOCwiaXNzIjoiWW91cklzc3VlciIsImF1ZCI6IllvdXJBdWRpZW5jZSJ9.G-LgzEh6_vsBDfZcSJXQD-RhLRKAz-UdCqT_Dl7fnRw',
       success: true,
     };
-    localStorage.setItem('currentUser', JSON.stringify(currentUser));
+    localStorage.setItem('login', JSON.stringify(currentUser));
     userService = new UserService(httpClientMock, router, toastr);
     expect(userService.currentLoginValue).not.toBeNull();
     expect(userService.currentLoginValue).toEqual(currentUser);
@@ -75,19 +84,21 @@ describe('UserService', () => {
   it('should do login successfully', () => {
     httpClientMock._spy.post._func.and.returnValue(
       of({
-        token: 'token de teste',
+        token:
+          'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJhYzIwN2I3MC00NTY5LTRlZDQtODhjNy0yYmNiMzljMWYxYWEiLCJlbWFpbCI6ImVkdWFyZG8uYmFyaXF1ZWxsb0BwaWxvdG8uY29tIiwiZ2l2ZW5fbmFtZSI6IkVkdWFyZG8iLCJ1bmlxdWVfbmFtZSI6ImFkbWluIiwibmJmIjoxNzQxOTAyNzE4LCJleHAiOjE3NDE5MDYzMTgsImlhdCI6MTc0MTkwMjcxOCwiaXNzIjoiWW91cklzc3VlciIsImF1ZCI6IllvdXJBdWRpZW5jZSJ9.G-LgzEh6_vsBDfZcSJXQD-RhLRKAz-UdCqT_Dl7fnRw',
         success: true,
       })
     );
     userService
-      .login('usuario01@userede.com.br', 'Mudar@123')
+      .login('eduardo.bariquello@piloto.com', 'password1')
       .subscribe((response) => {
         expect(response).toEqual({
-          token: 'token de teste',
+          token:
+            'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJhYzIwN2I3MC00NTY5LTRlZDQtODhjNy0yYmNiMzljMWYxYWEiLCJlbWFpbCI6ImVkdWFyZG8uYmFyaXF1ZWxsb0BwaWxvdG8uY29tIiwiZ2l2ZW5fbmFtZSI6IkVkdWFyZG8iLCJ1bmlxdWVfbmFtZSI6ImFkbWluIiwibmJmIjoxNzQxOTAyNzE4LCJleHAiOjE3NDE5MDYzMTgsImlhdCI6MTc0MTkwMjcxOCwiaXNzIjoiWW91cklzc3VlciIsImF1ZCI6IllvdXJBdWRpZW5jZSJ9.G-LgzEh6_vsBDfZcSJXQD-RhLRKAz-UdCqT_Dl7fnRw',
           success: true,
         });
         expect(userService.currentLoginValue).not.toBeNull();
-        expect(localStorage.getItem('currentUser')).not.toBeNull();
+        expect(localStorage.getItem('user')).not.toBeNull();
       });
   });
 

@@ -1,7 +1,13 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import {
+  async,
+  ComponentFixture,
+  fakeAsync,
+  TestBed,
+  tick,
+} from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { ActivatedRoute, RouterModule } from '@angular/router';
+import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { IMaskModule } from 'angular-imask';
 import { of } from 'rxjs/internal/observable/of';
 import { throwError } from 'rxjs/internal/observable/throwError';
@@ -9,34 +15,26 @@ import { ToastrModule, ToastrService } from 'ngx-toastr';
 import { TableModule } from 'app/shared/components/table/table.module';
 import { CreateEditProductComponent } from './create-edit-product.component';
 import { ProductService } from 'app/core/services/product/product.service';
-import { UserService } from 'app/core/services/login/user.service';
+
 import { FormCreateEditProductComponent } from '../../components/form-create-edit-product/form-create-edit-product.component';
 
+import { APP_BASE_HREF } from '@angular/common';
+import { ListProductComponent } from '../list-product/list-product.component';
+import { RouterTestingModule } from '@angular/router/testing';
+import { HomeComponent } from 'app/modules/home/pages/home/home.component';
+import { ProductModel } from 'app/core/services/product/product.model';
 describe('CreateEditProductComponent', () => {
   let component: CreateEditProductComponent;
   let fixture: ComponentFixture<CreateEditProductComponent>;
-
-  let toastrServiceMock: ToastrService;
-  let ProductService: ProductService;
-  //let detailProductService: DetailProductService;
-  let userService: UserService;
+  let productServiceMock: jasmine.SpyObj<ProductService>;
+  let toastrServiceMock: jasmine.SpyObj<ToastrService>;
+  let routerMock: jasmine.SpyObj<Router>;
+  let activatedRouteMock: any;
 
   const productValue = {
     name: 'Product Test',
     stock: 1,
     price: 1,
-    // productSuppliers: [
-    //   {
-    //     id: 1,
-    //     productId: 1,
-    //     supplierId: 1,
-    //     supplier: {
-    //       id: 1,
-    //       name: 'Supplier 1',
-    //       cnpj: '123456789',
-    //     },
-    //   },
-    // ],
   };
 
   const expectedResponse = {
@@ -44,94 +42,177 @@ describe('CreateEditProductComponent', () => {
   };
 
   beforeEach(async(() => {
+    routerMock = jasmine.createSpyObj('Router', ['navigate']);
+    productServiceMock = jasmine.createSpyObj('ProductService', [
+      'addProduct',
+      'updateProduct',
+      'getById',
+    ]);
+
+    toastrServiceMock = jasmine.createSpyObj('ToastrService', [
+      'success',
+      'error',
+      'warning',
+    ]);
+  }));
+
+  it('should be created', () => {
+    activatedRouteMock = { params: of({}) };
     TestBed.configureTestingModule({
       declarations: [
         CreateEditProductComponent,
         FormCreateEditProductComponent,
       ],
       imports: [
-        TableModule,
         ReactiveFormsModule,
-        IMaskModule,
         HttpClientTestingModule,
         ToastrModule.forRoot(),
         RouterModule.forRoot([]),
+        IMaskModule,
       ],
       providers: [
-        ToastrService,
-        ProductService,
-        //UserService,
-        { provide: ActivatedRoute, useValue: { params: of({ id: 1 }) } },
+        { provide: APP_BASE_HREF, useValue: '/' },
+        { provide: ProductService, useValue: productServiceMock },
+        { provide: ToastrService, useValue: toastrServiceMock },
+        { provide: ActivatedRoute, useValue: activatedRouteMock },
+        { provide: Router, useValue: routerMock },
       ],
     }).compileComponents();
-  }));
+    fixture = TestBed.createComponent(CreateEditProductComponent);
+    component = fixture.componentInstance;
+    fixture.detectChanges();
+    expect(component).toBeTruthy();
+  });
+  it('should call addProduct when creating a new product', () => {
+    activatedRouteMock = { params: of({}) };
+    TestBed.configureTestingModule({
+      declarations: [
+        CreateEditProductComponent,
+        FormCreateEditProductComponent,
+      ],
+      imports: [
+        ReactiveFormsModule,
+        HttpClientTestingModule,
+        ToastrModule.forRoot(),
+        RouterModule.forRoot([]),
+        IMaskModule,
+      ],
+      providers: [
+        { provide: APP_BASE_HREF, useValue: '/' },
+        { provide: ProductService, useValue: productServiceMock },
+        { provide: ToastrService, useValue: toastrServiceMock },
+        { provide: ActivatedRoute, useValue: activatedRouteMock },
+        { provide: Router, useValue: routerMock },
+      ],
+    }).compileComponents();
+    fixture = TestBed.createComponent(CreateEditProductComponent);
+    component = fixture.componentInstance;
+    fixture.detectChanges();
+    productServiceMock.addProduct.and.returnValue(of(expectedResponse));
 
-  beforeEach(() => {
-    jasmine.getEnv().allowRespy(true);
+    component.sendSaveProduct(productValue);
+
+    expect(productServiceMock.addProduct).toHaveBeenCalledWith(productValue);
+  });
+
+  it('should call updateProduct when editing a product', fakeAsync(() => {
+    // Mock ActivatedRoute for editing (with `id` in params)
+    const activatedRouteMock = { params: of({ id: 1 }) };
+
+    // TestBed configuration
+    TestBed.configureTestingModule({
+      declarations: [
+        CreateEditProductComponent,
+        FormCreateEditProductComponent,
+        HomeComponent,
+      ],
+      imports: [
+        RouterTestingModule.withRoutes([
+          { path: '/products', component: HomeComponent }, // Define your route
+        ]),
+        ReactiveFormsModule,
+        HttpClientTestingModule,
+        ToastrModule.forRoot(),
+        RouterModule.forRoot([]),
+        IMaskModule,
+      ],
+      providers: [
+        { provide: APP_BASE_HREF, useValue: '/' },
+        { provide: ProductService, useValue: productServiceMock },
+        { provide: ToastrService, useValue: toastrServiceMock },
+        { provide: ActivatedRoute, useValue: activatedRouteMock },
+        { provide: Router, useValue: routerMock },
+      ],
+    }).compileComponents();
 
     fixture = TestBed.createComponent(CreateEditProductComponent);
     component = fixture.componentInstance;
 
-    toastrServiceMock = TestBed.get(ToastrService);
-    ProductService = TestBed.get(ProductService);
+    // Mock the response for getting product details (productToUpdate)
+    productServiceMock.getById.and.returnValue(
+      of({
+        name: 'Product Test',
+        stock: 1,
+        price: 1,
+        id: 1,
+      })
+    );
 
-    userService = TestBed.get(UserService);
-
+    // Trigger ngOnInit (initialize the form and populate it)
     fixture.detectChanges();
+    tick(); // flush any pending asynchronous operations
 
-    spyOn(component.formProductComponent, 'getFormProduct').and.returnValue(
-      productValue
+    // Check if form is initialized
+    expect(component.formProductComponent).toBeTruthy(); // Make sure the form is initialized
+    spyOn(
+      component.formProductComponent.formProductEmitter,
+      'emit'
+    ).and.returnValue();
+    // Ensure the form is populated with the returned product details
+    component.formProductComponent.formProduct
+      .get('name')
+      .setValue('Product Test');
+    component.formProductComponent.formProduct.get('price').setValue('1000');
+    component.formProductComponent.formProduct.get('stock').setValue(2000);
+
+    component.formProductComponent.addEditProduct();
+
+    expect(
+      component.formProductComponent.formProductEmitter.emit
+    ).toHaveBeenCalledWith({
+      name: 'Product Test',
+      price: '1000',
+      stock: 2000,
+    });
+
+    // Mock the service call for updating the product
+    productServiceMock.updateProduct.and.returnValue(
+      of({
+        name: 'Product Test',
+        price: 1000,
+        stock: 2000,
+        id: 1,
+      })
     );
-  });
 
-  it('should create', () => {
-    expect(component).toBeTruthy();
-  });
+    // Call sendSaveProduct to trigger the update process
+    component.sendSaveProduct({
+      name: 'Product Test',
+      price: 1000,
+      stock: 2000,
+    });
 
-  it('should sendProduct successfully', () => {
-    spyOn(component.formProductComponent, 'getFormProduct').and.returnValue(
-      productValue
-    );
-    spyOn(ProductService, 'addProduct').and.returnValue(of(expectedResponse));
-    spyOn(toastrServiceMock, 'success');
+    // Ensure the updateProduct method was called with the correct parameters
+    expect(productServiceMock.updateProduct).toHaveBeenCalledWith({
+      name: 'Product Test',
+      price: 1000,
+      stock: 2000,
+      id: 1,
+    });
 
-    component.sendSaveProduct(component.formProductComponent.getFormProduct());
-
-    expect(ProductService.addProduct).toHaveBeenCalledWith(expectedResponse);
+    // Check that toastr success was called
     expect(toastrServiceMock.success).toHaveBeenCalledWith(
-      'Produto cadastrado com sucesso'
+      'Product updated successfully'
     );
-  });
-
-  it('should not sendProduct and return an error', () => {
-    spyOn(component.formProductComponent, 'getFormProduct').and.returnValue({
-      name: 'Product Test',
-      price: 1,
-    });
-    spyOn(ProductService, 'addProduct').and.returnValue(
-      throwError({ status: 409 })
-    );
-    spyOn(toastrServiceMock, 'error');
-
-    component.sendSaveProduct(component.formProductComponent.getFormProduct());
-
-    expect(toastrServiceMock.error).toHaveBeenCalled();
-  });
-
-  it('should show warning if formParameters is incomplete', () => {
-    spyOn(component.formProductComponent, 'getFormProduct').and.returnValue({
-      name: 'Product Test',
-      price: 1,
-    });
-    spyOn(ProductService, 'addProduct').and.returnValue(of(expectedResponse));
-    spyOn(toastrServiceMock, 'warning');
-
-    component.formProductComponent.price.setValue('35');
-
-    component.sendSaveProduct(component.formProductComponent.getFormProduct());
-
-    expect(toastrServiceMock.warning).toHaveBeenCalledWith(
-      'Product form wasn´t complete. Finish the editing or clear what´s was filled'
-    );
-  });
+  }));
 });

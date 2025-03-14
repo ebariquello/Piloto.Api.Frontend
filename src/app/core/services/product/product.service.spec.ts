@@ -78,7 +78,7 @@ describe('ProductService', () => {
 
     productService.addProduct(body).subscribe(
       (res) => {
-        const expectedURL = `${environment.parameters.addParameter}`;
+        const expectedURL = `${environment.products}`;
         expect(httpClientMock.post).toHaveBeenCalledWith(expectedURL, body);
         expect(httpClientMock.post).toHaveBeenCalledTimes(1);
         expect(res).toEqual(expectedReturn);

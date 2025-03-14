@@ -36,6 +36,7 @@ export class FormCreateEditProductComponent implements OnInit {
 
   formProduct: FormGroup;
   currencyMask = currencyMask;
+  productId: number = 0;
 
   get name(): AbstractControl {
     return this.formProduct.get('name');
@@ -57,11 +58,12 @@ export class FormCreateEditProductComponent implements OnInit {
 
   ngOnChanges() {
     // If productToEdit is passed, update the form values for editing
-    if (this.productToEdit) {
+    if (this.productToEdit && this.formProduct) {
       this.formProduct.patchValue({
         ...this.productToEdit,
         price: this.productToEdit.price.toString(),
       });
+      this.productId = this.productToEdit.id;
     }
   }
 
@@ -74,14 +76,6 @@ export class FormCreateEditProductComponent implements OnInit {
     } else {
       this.toastr.warning(MessagesEnums.FORM_INVALID_PENDENCIES);
     }
-  }
-
-  getFormProduct(): FormCreateEditProductModel | null {
-    if (this.formProduct.valid) {
-      return this.formProduct.getRawValue();
-    }
-    this.toastr.warning(MessagesEnums.FORM_INVALID_PENDENCIES);
-    return null;
   }
 
   private sendProduct(formValue: ProductModel) {

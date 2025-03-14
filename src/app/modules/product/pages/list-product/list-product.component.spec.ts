@@ -17,6 +17,7 @@ import { throwError } from 'rxjs/internal/observable/throwError';
 import { ProductService } from 'app/core/services/product/product.service';
 
 import { ProductModel } from 'app/core/services/product/product.model';
+import { ModalConfirmModule } from 'app/shared/components/modal-confirm/modal-confirm.module';
 
 describe('ListProductComponent', () => {
   let component: ListProductComponent;
@@ -31,14 +32,19 @@ describe('ListProductComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [ListProductComponent],
-      imports: [GridModule, RouterTestingModule, ToastrModule.forRoot()],
+      imports: [
+        GridModule,
+        ModalConfirmModule,
+        RouterTestingModule,
+        ToastrModule.forRoot(),
+      ],
       providers: [
         ...mockServices([
           { provide: APP_BASE_HREF },
           HttpClientTestingModule,
           HttpClientModule,
           Router,
-          productService,
+          ProductService,
           ToastrService,
         ]),
       ],
@@ -51,8 +57,8 @@ describe('ListProductComponent', () => {
     const get = TestBed.get;
     routerMock = get(Router);
     toastrServiceMock = get(ToastrService);
-    productService = get(productService);
-    productService._spy.getAllDiscountParameters._func.and.returnValue(of({}));
+    productService = get(ProductService);
+    productService._spy.getAll._func.and.returnValue(of({}));
     fixture.detectChanges();
   });
 
@@ -61,15 +67,13 @@ describe('ListProductComponent', () => {
   });
 
   it('should render gridData with 2', () => {
-    productService._spy.getAllDiscountParameters._func.and.returnValue(
-      of(get2ProductsTables())
-    );
+    productService._spy.getAll._func.and.returnValue(of(get2ProductsTables()));
     component.ngOnInit();
     expect(component.gridData.length === 2).toBeTruthy();
   });
 
   it('should call toastr if an error is thrown', () => {
-    productService._spy.getAllDiscountParameters._func.and.returnValue(
+    productService._spy.getAll._func.and.returnValue(
       throwError({ status: 404 })
     );
     toastrServiceMock._spy.error._func.and.returnValue('');
@@ -87,29 +91,29 @@ describe('ListProductComponent', () => {
 
     spyOn(component, 'productTableActions');
 
-    const myElement = fixture.debugElement.queryAll(By.css('.grid__actions'));
+    const myElement = fixture.debugElement.queryAll(
+      By.css('.grid__actions .icon')
+    );
     myElement[0].triggerEventHandler('click', {
-      Row: { Id: 4 },
+      Row: { id: 4 } as any,
       ActionIndex: 0,
     });
 
     expect(component.productTableActions).toHaveBeenCalled();
   });
 
-  it('should fire click productTableActions and navigate to Duplicate page', () => {
-    component.productTableActions({ Row: { Id: 4 }, ActionIndex: 0 });
-    expect(routerMock.navigate).toHaveBeenCalledWith([
-      'discount-parameter/duplicate',
-      4,
-    ]);
-  });
+  // it('should fire click productTableActions and navigate to Duplicate page', () => {
+  //   component.productTableActions({ Row: { Id: 4 }, ActionIndex: 0 });
+  //   expect(routerMock.navigate).toHaveBeenCalledWith([
+  //     'discount-parameter/duplicate',
+  //     4,
+  //   ]);
+  // });
 
-  it('should fire click productTableActions and navigate to Duplicate page', () => {
-    component.productTableActions({ Row: { Id: 5 }, ActionIndex: 1 });
-    expect(routerMock.navigate).toHaveBeenCalledWith([
-      'discount-parameter/detail',
-      5,
-    ]);
+  it('should fire click productTableActions and navigate to edit page', () => {
+    const actionRowResult = { Row: { id: 5 } as any, ActionIndex: 0 };
+    component.productTableActions(actionRowResult);
+    expect(routerMock.navigate).toHaveBeenCalledWith(['products/edit/', 5]);
   });
 
   it('should not navigate if row event is null', () => {

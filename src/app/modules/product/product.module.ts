@@ -13,8 +13,6 @@ import { ListProductComponent } from './pages/list-product/list-product.componen
 import { TableModule } from 'app/shared/components/table/table.module';
 import { CreateEditProductComponent } from './pages/create-edit-product/create-edit-product.component';
 import { FormCreateEditProductComponent } from './components/form-create-edit-product/form-create-edit-product.component';
-import { ToggleEmployeeModule } from 'app/shared/components/toggle-employee/toggle-employee.module';
-import { CommentFormModule } from 'app/shared/components/comment-form/comment-form.module';
 import { ProductService } from 'app/core/services/product/product.service';
 import { ModalConfirmModule } from 'app/shared/components/modal-confirm/modal-confirm.module';
 
@@ -34,13 +32,7 @@ import { ModalConfirmModule } from 'app/shared/components/modal-confirm/modal-co
     TableModule,
     ReactiveFormsModule,
     IMaskModule,
-    ToggleEmployeeModule,
-    CommentFormModule,
   ],
-  providers: [
-    ToastrService,
-    ProductService,
-    // DetailDiscountParameterService
-  ],
+  providers: [ToastrService, ProductService],
 })
 export class ProductModule {}

@@ -19,7 +19,7 @@ describe('GridComponent', () => {
 
   beforeEach(() => {
     fixture = TestBed.createComponent(GridComponent);
-    component = fixture.componentInstance;
+    component = fixture.componentInstance as GridComponent<BaseTableModel>;
 
     component.gridTitle = 'Teste';
     component.gridHeaders = ['Tipo de solicitação', 'Criado em'];
@@ -45,11 +45,12 @@ describe('GridComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should call sendAction() value when clicked and send id = 21', () => {
+  it('should call sendAction() value when clicked and send id = 21', async () => {
     spyOn(component, 'sendAction');
     fixture.debugElement
-      .queryAll(By.css('.grid__actions'))[0]
+      .queryAll(By.css('.grid__actions span'))[0]
       .triggerEventHandler('click', null);
+    await fixture.whenStable();
     expect(component.sendAction).toHaveBeenCalledWith(
       {
         Id: 21,

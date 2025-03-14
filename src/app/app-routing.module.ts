@@ -34,14 +34,6 @@ export const routes: Routes = [
         canActivate: [AuthGuard],
       },
       {
-        path: 'workflow',
-        loadChildren: () =>
-          import('./modules/workflow/workflow.module').then(
-            (m) => m.WorkflowModule
-          ),
-        canActivate: [AuthGuard],
-      },
-      {
         path: 'products',
         loadChildren: () =>
           import('./modules/product/product.module').then(
@@ -49,17 +41,10 @@ export const routes: Routes = [
           ),
         canActivate: [AuthGuard],
       },
-      {
-        path: 'flex-condition',
-        loadChildren: () =>
-          import('./modules/flex-condition/flex-condition.module').then(
-            (m) => m.FlexConditionModule
-          ),
-        canActivate: [AuthGuard],
-      },
+
       {
         path: '**',
-        redirectTo: '/workflow',
+        redirectTo: '/products',
       },
     ],
   },

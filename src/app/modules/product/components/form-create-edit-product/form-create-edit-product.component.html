@@ -29,7 +29,10 @@
         required>
     </div>
       <div class="col-xs-1 colButton">
-        <button type="button" (click)="addEditProduct()" class="btn btn-success pull-right">Add</button>
+        <button type="button" (click)="addEditProduct()" class="btn btn-success pull-right">
+          {{ productId > 0 ? 'Edit' : 'Create' }}
+        </button>
+        
       </div>
 
   </div>

@@ -1,4 +1,10 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import {
+  async,
+  ComponentFixture,
+  fakeAsync,
+  TestBed,
+  tick,
+} from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
 
@@ -29,6 +35,7 @@ describe('HeaderComponent', () => {
         { provide: ToastrService, useFactory: () => toastrServiceMock },
       ],
     }).compileComponents();
+    localStorage.clear();
   }));
 
   beforeEach(() => {
@@ -36,7 +43,8 @@ describe('HeaderComponent', () => {
     toastrServiceMock = TestBed.get(ToastrService);
 
     userServiceMock._spy.currentUser._get.and.returnValue(of({}));
-    userServiceMock._spy.getUserInformation._func.and.returnValue(of({}));
+    userServiceMock._spy.currentLogin._get.and.returnValue(of({}));
+    userServiceMock._spy.currentUserInformation._get.and.returnValue(of({}));
 
     fixture = TestBed.createComponent(HeaderComponent);
     component = fixture.componentInstance;
@@ -47,9 +55,10 @@ describe('HeaderComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should set isUser to false if user is not logged', async () => {
+  it('should set isLoggedin to false if user is not logged', async () => {
     userServiceMock._spy.currentLogin._get.and.returnValue(
       of({
+        token: '',
         success: false,
       })
     );
@@ -62,7 +71,7 @@ describe('HeaderComponent', () => {
   });
 
   it('should show toaster if an error is thrown', () => {
-    userServiceMock._spy.currentUser._get.and.returnValue(
+    userServiceMock._spy.currentLogin._get.and.returnValue(
       throwError({ status: 409 })
     );
 
@@ -72,43 +81,61 @@ describe('HeaderComponent', () => {
     expect(toastrServiceMock.error).toHaveBeenCalled();
   });
 
-  it('should set isUser to true if user logged', async () => {
-    userServiceMock._spy.currentUser._get.and.returnValue(
-      of({
-        success: true,
-        token: 'meu token de teste',
-      })
-    );
-
-    userServiceMock._spy.currentUser._get.and.returnValue(
-      of({
-        id: '738043',
-        name: 'Teste User 01',
-      })
-    );
-
-    component.ngOnInit();
-    fixture.detectChanges();
-    fixture.whenStable().then(() => {
-      expect(component.isLoggedin).toBeTruthy();
-    });
-  });
-
-  it('should toastService error if get error on getuserInformation', () => {
+  it('should set isUser to true if user logged', fakeAsync(() => {
     userServiceMock._spy.currentLogin._get.and.returnValue(
       of({
         success: true,
         token: 'meu token de teste',
       })
     );
-    userServiceMock._spy.getUserInformation._get.and.returnValue(
-      throwError({ message: 'Error' })
-    );
-    toastrServiceMock._spy.error._func.and.returnValue(null);
+
+    // userServiceMock._spy.currentLogin._get.and.returnValue(
+    //   of({
+    //     id: '738043',
+    //     name: 'Teste User 01',
+    //   })
+    // );
 
     component.ngOnInit();
-    expect(userServiceMock.currentUserInformation).toHaveBeenCalled();
-    expect(toastrServiceMock.error).toHaveBeenCalled();
+    fixture.detectChanges();
+    tick();
+    expect(component.isLoggedin).toBeTruthy();
+    // fixture.whenStable().then(() => {
+
+    // });
+  }));
+
+  it('should call toastrService.error if there is an error on getUserInformation', () => {
+    // Mock successful login
+    userServiceMock._spy.currentLogin._get.and.returnValue(
+      of({
+        success: true, // Ensure isLoggedin is true so getUserInfo is called
+        token: 'meu token de teste',
+      })
+    );
+
+    // Mock getUserInformation to return an error
+    userServiceMock._spy.currentUser._get.and.returnValue(
+      throwError({ message: 'Error' })
+    );
+
+    // Spy on toastrService.error to verify it is called on error
+    toastrServiceMock._spy.error._func.and.returnValue('Error');
+
+    // Call ngOnInit which will trigger the service calls
+    component.ngOnInit();
+    fixture.detectChanges();
+
+    // Ensure that currentLogin was called
+    expect(userServiceMock._spy.currentLogin._get).toHaveBeenCalled();
+
+    // Ensure getUserInfo is called (since currentLogin.success is true)
+    expect(userServiceMock._spy.currentUser._get).toHaveBeenCalled();
+
+    // Ensure that toastrService.error was called with the error message
+    expect(toastrServiceMock._spy.error._func).toHaveBeenCalledWith({
+      message: 'Error',
+    });
   });
 
   it('should logout when user clicks button', () => {

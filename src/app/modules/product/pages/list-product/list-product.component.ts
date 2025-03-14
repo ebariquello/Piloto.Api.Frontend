@@ -63,18 +63,20 @@ export class ListProductComponent implements OnInit {
     if (this.produtoIdToDelete) {
       console.log('Deleting product...');
       this.productService.deleteProduct(this.produtoIdToDelete).subscribe(
-        (res) => {
-          // this.router.navigate(['/products']);
-          // this.toastr.success('Product updated successfully');
-          if (res > 0) {
-            this.gridData = this.gridData.filter(
-              (data) => data.id !== this.produtoIdToDelete
-            );
-            this.gridData$.next(this.gridData);
-            this.toastr.success('Product deleted successfully');
-          }
+        () => {
+          // Remove the product from the grid
+          this.gridData = this.gridData.filter(
+            (data) => data.id !== this.produtoIdToDelete
+          );
+          this.gridData$.next(this.gridData);
+
+          // Show success toast
+          this.toastr.success('Product deleted successfully');
         },
-        (err) => this.toastr.error(err)
+        (err) => {
+          console.error('Error deleting product:', err);
+          this.toastr.error('Error deleting product');
+        }
       );
 
       // Close the modal after confirming

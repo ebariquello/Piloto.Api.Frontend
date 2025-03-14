@@ -69,7 +69,7 @@ export class HeaderComponent implements OnInit {
           this.loginInfo = this.userService.currentLoginValue;
         }
       },
-      (err) => checkErrorMessage(this.toastr, err)
+      (err) => this.toastr.error(err)
     );
   }
 }
